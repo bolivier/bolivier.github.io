@@ -13,5 +13,11 @@ module.exports = {
   ],
   siteMetadata: {
     title: `Brandon Olivier`,
+    social: [
+      {
+        url: 'https://github.com/bolivier',
+        name: 'GitHub',
+      },
+    ],
   },
 };

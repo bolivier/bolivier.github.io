@@ -1,5 +1,5 @@
-import React, { Fragment } from "react"
-import { Styled, css } from "theme-ui"
+import React, { Fragment } from 'react';
+import { Styled, css } from 'theme-ui';
 
 const Footer = ({ socialLinks }) => (
   <footer
@@ -25,5 +25,5 @@ const Footer = ({ socialLinks }) => (
       </Fragment>
     ))}
   </footer>
-)
-export default Footer
+);
+export default Footer;
