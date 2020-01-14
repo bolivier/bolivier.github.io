@@ -53,7 +53,7 @@ const Bio = () => {
           borderRadius: `50%`,
         }}
       />
-      <p>I live in Austin, TX. I like cooking, clojure, and JS</p>
+      <p>I live in Austin, TX. I write Javascript for work, and Clojure(script) for fun.</p>
     </div>
   )
 }
