@@ -1,6 +1,7 @@
 ---
 title: Reducing Boilerplate in Redux
 date: 2018-09-12
+description: Some ways I tried to make Redux more pleasant
 ---
 
 edit: at this point, I'd reccomend [the redux starter kit][1]
