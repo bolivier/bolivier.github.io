@@ -1,6 +1,6 @@
 ---
 title: Getting Started with Clojure(script)
-description: todo: learn lisp
+description: "todo: learn lisp"
 date: 2020-02-10
 ---
 
