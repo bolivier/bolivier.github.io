@@ -14,8 +14,14 @@ class RecipesIndex extends React.Component {
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO title="All posts" />
+        <SEO title="recipes" />
         <Bio />
+        <div>
+          <p>
+            These recipes are mostly just for my own reference, and are written
+            in a pretty abbreviated style.
+          </p>
+        </div>
         {posts.map(({ node }) => {
           const title = node.frontmatter.title || node.fields.slug
           return (
@@ -30,7 +36,6 @@ class RecipesIndex extends React.Component {
                     {title}
                   </Link>
                 </h3>
-                <small>{node.frontmatter.date}</small>
               </header>
               <section>
                 <p
@@ -59,7 +64,8 @@ export const pageQuery = graphql`
     }
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
-      filter:{fileAbsolutePath: {regex: "/(recipes)/.*\\\\.md$/"}}) {
+      filter: { fileAbsolutePath: { regex: "/(recipes)/.*\\\\.md$/" } }
+    ) {
       edges {
         node {
           excerpt
@@ -75,5 +81,4 @@ export const pageQuery = graphql`
       }
     }
   }
-
 `
