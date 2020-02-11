@@ -1,26 +1,22 @@
 ---
 title: Getting Started with Clojure(script)
-description: a simple todomvc copycat project
+description: Let's do some basic frontend work
 date: 2020-02-10
 ---
 
 I love writing Clojure, but it took me a long time to get into it, mostly
-because of the configuration options.
-I got a handle of what I liked and how
-
-Last time we got a basic CLJS app up and running with Leiningen and Shadow-CLJS.
-Today, let's implement a simple frontend version of todomvc.
+because of the configuration options.  I got a handle of what I liked and how to
+assemble some pieces of Clojure into a productive dev environment.
 
 I want to show off how using cljs can help you be more productive and how you
 can use simpler tools to write web apps. We're giong to write the classic
 todomvc app.  I'm going to start with the client, using shadow-cljs to build our
-clojurescript, and then I'm going to create a persistence layer on the backend.
+Clojurescript.
 
-To follow along, you'll just need to install [Leiningen][1].
+To follow along, you'll just need to install [Leiningen][1], a popular Clojure
+build tool.
 
 [1]: https://leiningen.org/
-
-
 
 ### A word on editor integration
 
