@@ -22,8 +22,8 @@ build tool.
 
 Clojure is meant to be evaluated in a REPL (Read Eval Print Loop), but you're
 not meant to type everything in at the prompt to get it working.  You should set
-up your editor of choice to support `eval-last-sexp` in order to get the most
-out of this tutorial
+up your editor of choice to support `eval-last-sexp` (or equivalent) in order to
+get the most out of this tutorial
 
 ### Installing the template
 
