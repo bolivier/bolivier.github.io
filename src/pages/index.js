@@ -12,36 +12,62 @@ class BlogIndex extends React.Component {
     const siteTitle = data.site.siteMetadata.title
     const posts = data.allMarkdownRemark.edges
 
+    const tags = organizePostsByTag(posts)
+
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="All posts" />
         <Bio />
-        {posts.map(({ node }) => {
-          const title = node.frontmatter.title || node.fields.slug
-          return (
-            <article key={node.fields.slug}>
-              <header>
-                <h3
+        <div style={{ display: "flex", flexFlow: "row wrap", gap: "15px" }}>
+          {Object.entries(tags)
+            .sort((a, b) => {
+              return a[0].charCodeAt(0) - b[0].charCodeAt(0)
+            })
+            .map(([tag, posts]) => {
+              return (
+                <div
                   style={{
-                    marginBottom: rhythm(1 / 4),
+                    flex: "40%",
+                    padding: "5px",
+                    borderRadius: "3px",
+                    boxShadow: "1px 1px 2px 0px",
+                    background: "#f8f8f8",
                   }}
                 >
-                  <Link style={{ boxShadow: `none` }} to={node.fields.slug}>
-                    {title}
-                  </Link>
-                </h3>
-                <small>{node.frontmatter.date}</small>
-              </header>
-              <section>
-                <p
-                  dangerouslySetInnerHTML={{
-                    __html: node.frontmatter.description || node.excerpt,
-                  }}
-                />
-              </section>
-            </article>
-          )
-        })}
+                  <div>
+                    <h2
+                      style={{
+                        marginBottom: "0.5rem",
+                        marginTop: 0,
+                        textDecoration: "underline",
+                      }}
+                    >
+                      {capitalize(tag)}
+                    </h2>
+                    <div style={{ textAlign: "left" }}>
+                      {posts.map(({ node }) => (
+                        <React.Fragment>
+                          <li style={{ display: "inline" }}>
+                            <Link
+                              style={{
+                                marginRight: "0.5rem",
+                                boxShadow: "none",
+                                fontSize: "10px",
+                                textDecoration: "underline",
+                              }}
+                              to={node.fields.slug}
+                            >
+                              {node.frontmatter.title}
+                            </Link>
+                          </li>
+                        </React.Fragment>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+        </div>
       </Layout>
     )
   }
@@ -49,7 +75,6 @@ class BlogIndex extends React.Component {
 
 export default BlogIndex
 
-const regexp = "/(blog)/.*\\\\.md$/"
 export const pageQuery = graphql`
   query {
     site {
@@ -59,7 +84,8 @@ export const pageQuery = graphql`
     }
     allMarkdownRemark(
       sort: { fields: [frontmatter___date], order: DESC }
-      filter:{fileAbsolutePath: {regex: "/(blog)/.*\\\\.md$/"}}) {
+      filter: { fileAbsolutePath: { regex: "/(blog)/.*\\\\.md$/" } }
+    ) {
       edges {
         node {
           excerpt
@@ -70,10 +96,27 @@ export const pageQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             title
             description
+            tags
           }
         }
       }
     }
   }
-
 `
+function capitalize(s) {
+  return s[0].toUpperCase() + s.slice(1)
+}
+
+function organizePostsByTag(posts) {
+  const tags = {}
+  posts.forEach(post => {
+    const { node } = post
+    node.frontmatter.tags.forEach(tag => {
+      if (!tags[tag]) {
+        tags[tag] = []
+      }
+      tags[tag].push(post)
+    })
+  })
+  return tags
+}

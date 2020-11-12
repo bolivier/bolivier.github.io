@@ -7,14 +7,21 @@ class Layout extends React.Component {
   render() {
     const { location, title, children } = this.props
     const rootPath = `${__PATH_PREFIX__}/`
+
+    const showBigHeader =
+      location.pathname === rootPath ||
+      location.pathname === rootPath + "recipes"
+
     let header
 
-    if (location.pathname === rootPath) {
+    if (showBigHeader) {
       header = (
         <h1
+          className="name-header"
           style={{
             marginBottom: rhythm(1.5),
             marginTop: 0,
+            color: "#40407a",
           }}
         >
           <Link
@@ -53,15 +60,24 @@ class Layout extends React.Component {
     return (
       <div
         style={{
-          marginLeft: `auto`,
-          marginRight: `auto`,
-          maxWidth: rhythm(24),
-          padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          marginTop: "2rem",
         }}
       >
         <header>{header}</header>
-        <main>{children}</main>
-        <footer>
+        <main
+          style={{
+            width: "70%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          {children}
+        </main>
+        <footer style={{ marginTop: "3rem" }}>
           © {new Date().getFullYear()}, Built with
           {` `}
           <a href="https://www.gatsbyjs.org">Gatsby</a>

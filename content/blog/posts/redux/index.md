@@ -2,6 +2,7 @@
 title: Reducing Boilerplate in Redux
 date: 2018-09-12
 description: Some ways I tried to make Redux more pleasant
+tags: ["javascript", "react", "redux"]
 ---
 
 edit: at this point, I'd reccomend [the redux starter kit][1]
@@ -17,7 +18,7 @@ top level items in the application state.
 To quickly recap, reducers are pure functions that take `state` and
 `action` as arguments. Based on the `type` property of `action`,
 it makes a change to the state and returns a new copy of it. You can
-read more about Redux at *the Redux docs*.
+read more about Redux at _the Redux docs_.
 
 I might write something like
 
@@ -50,7 +51,7 @@ something like that is
 
 ```javascript
 // prefix -> initialState, [reducerGenerics] -> reducer
-export const todoReducer = createReducer('todo', {}, ['add']);
+export const todoReducer = createReducer("todo", {}, ["add"])
 ```
 
 I need a prefix to identify all these actions, because action types need
@@ -65,23 +66,28 @@ that will take precedence over the custom ones.
 The code for something like that might look like
 
 ```javascript
-export function createReducer(prefix, initialState, reducerGenerics, customReductions) {
+export function createReducer(
+  prefix,
+  initialState,
+  reducerGenerics,
+  customReductions
+) {
   return (state, action) => {
     if (!state) {
-      return initialState;
+      return initialState
     }
 
     const customAlteredState = applyCustomReductions(
       customReductions,
       state,
       action
-    );
+    )
 
     if (!_.isEqual(customAlteredState, state)) {
-      return customAlteredState;
+      return customAlteredState
     }
 
-    return applyGenericReductions(prefix, reducerGenerics, state, action);
+    return applyGenericReductions(prefix, reducerGenerics, state, action)
   }
 }
 ```
@@ -113,16 +119,16 @@ by human actions, it should suffice.
 const applyGenericReductions = (prefix, generics, state, action) => {
   const newStates = generics
     .map(name => {
-      const reducer = lookupGenericReducer(genericName, prefix);
+      const reducer = lookupGenericReducer(genericName, prefix)
       if (reducer) {
-        return reducer(state, action);
+        return reducer(state, action)
       } else {
-        throw `Could not find reducer with name: ${genericName}`;
+        throw `Could not find reducer with name: ${genericName}`
       }
     })
-    .filter(newState => !_.isEqual(state, newState));
-  return newStates[0] || state;
-};
+    .filter(newState => !_.isEqual(state, newState))
+  return newStates[0] || state
+}
 ```
 
 As an aside, I'm using the lodash `isEqual` method here for deep
@@ -204,7 +210,7 @@ Now I can turn my attention to getting the reducers. I need a way to
 pass in the prefix and return the reducer.
 
 ```javascript
-const lookupGenericReducer = (name, prefix) => reducerRegistry[name](prefix);
+const lookupGenericReducer = (name, prefix) => reducerRegistry[name](prefix)
 ```
 
 This is about as brain dead as I can make anything.
@@ -216,13 +222,13 @@ like
 `src/genericReducers/index.js`
 
 ```javascript
-export { addReducer } from './addReducer'
+export { addReducer } from "./addReducer"
 ```
 
 `src/reducers/todoReducer.js`
 
 ```javascript
-import * as reducerRegistry from '../genericReducers';
+import * as reducerRegistry from "../genericReducers"
 ```
 
 ### Custom Reducer Functions
@@ -235,16 +241,21 @@ Luckily, `createReducer` will take a custom reducer function. I can
 write something like
 
 ```javascript
-export const todoReducer = createReducer('todo', {}, ['add'], (state, action) => {
-  switch (action.type) {
-    case 'DELETE_TODO':
-      const newState = { ...state };
-      delete newState[action.payload.id];
-      return newState;
-    default: 
-      return state;
+export const todoReducer = createReducer(
+  "todo",
+  {},
+  ["add"],
+  (state, action) => {
+    switch (action.type) {
+      case "DELETE_TODO":
+        const newState = { ...state }
+        delete newState[action.payload.id]
+        return newState
+      default:
+        return state
+    }
   }
-});
+)
 ```
 
 The function in `createReducer` that will handle that is called
@@ -258,11 +269,11 @@ handle multiple functions that change the state.
 ```javascript
 const applyCustomReductions = (customReductions, initialState, action) => {
   if (customReductions) {
-    return customReductions(initialState, action);
+    return customReductions(initialState, action)
   } else {
-    return initialState;  
+    return initialState
   }
-};
+}
 ```
 
 Now I have all the pieces to write generic reducer functions. If I want
@@ -281,7 +292,7 @@ the way that they're going to be generated and expect that.
 
 A potential solution to that is to refactor `createReducer` to return
 an object with `reducer` and `types`, but I think you're starting
-to betray the name in that case. It's not *just* creating a reducer,
+to betray the name in that case. It's not _just_ creating a reducer,
 it's generating types. I could create a new function called
 `createTypes` or something, and reference that, but then I've still
 got to know which types are going to be returned in that object to use

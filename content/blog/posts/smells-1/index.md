@@ -2,6 +2,7 @@
 title: "Code Smells: Secondary Render Methods"
 description: Something
 date: 2020-01-23
+tags: ["javascript", "refactoring"]
 ---
 
 > Code Smell (n): a surface indication that usually corresponds to a deeper
@@ -26,16 +27,16 @@ class FoodList extends React.Component {
 }
 ```
 
-This smells to me.  
+This smells to me.
 
-What **is** a React component?  It's a function that returns JSX.
-`this.renderFoodListItem` _is_ a component.  It represents a single item in a
+What **is** a React component? It's a function that returns JSX.
+`this.renderFoodListItem` _is_ a component. It represents a single item in a
 food list, but it doesn't have a proper name and isn't afforded the respect it
 deserves. We have to hope that we always want to render food items in exactly
 the way that `FoodList` expects.
 
 When I come across this kind of method, I like to refactor it to pull out that
-hidden component that should be living it its own file.  That way, if I need to
+hidden component that should be living it its own file. That way, if I need to
 configure it, I know right where to look, I have a place just for that
 configuration, `FoodListItem.js`.
 

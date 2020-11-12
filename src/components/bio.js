@@ -32,7 +32,10 @@ const Bio = () => {
     }
   `)
 
-    const { author } = data.site.siteMetadata
+  const { author } = data.site.siteMetadata
+
+  const rootPath = `${__PATH_PREFIX__}/`
+
   return (
     <div
       style={{
@@ -54,8 +57,19 @@ const Bio = () => {
         }}
       />
       <div>
-      <p>I live in Austin, TX. I write Javascript for work, and Clojure(script) for fun.</p>
-      <p>I also like to <Link to="/recipes">cook</Link>.</p>
+        <p>
+          I live in Austin, TX. I write Javascript for work, and Clojure(script)
+          for fun.
+        </p>
+        <p>
+          I also like to{" "}
+          {location.pathname !== rootPath ? (
+            <Link to="/">code</Link>
+          ) : (
+            <Link to="/recipes">cook</Link>
+          )}
+          .
+        </p>
       </div>
     </div>
   )
