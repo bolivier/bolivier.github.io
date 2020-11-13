@@ -15,7 +15,7 @@ class RecipesIndex extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="recipes" />
-        <Bio />
+        <Bio location={this.props.location} />
         <div>
           <p>
             These recipes are mostly just for my own reference, and are written

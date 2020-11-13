@@ -45,7 +45,7 @@ class RecipePostTemplate extends React.Component {
             }}
           />
           <footer>
-            <Bio />
+            <Bio location={{ pathname: "not-root" }} />
           </footer>
         </article>
 

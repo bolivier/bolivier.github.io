@@ -17,7 +17,7 @@ class BlogIndex extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="All posts" />
-        <Bio />
+        <Bio location={this.props.location} />
         <div style={{ display: "flex", flexFlow: "row wrap", gap: "15px" }}>
           {Object.entries(tags)
             .sort((a, b) => {
