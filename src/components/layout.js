@@ -28,7 +28,7 @@ class Layout extends React.Component {
             style={{
               boxShadow: `none`,
               textDecoration: `none`,
-              color: `inherit`,
+              color: "#40407a",
             }}
             to={`/`}
           >
@@ -49,6 +49,7 @@ class Layout extends React.Component {
               boxShadow: `none`,
               textDecoration: `none`,
               color: `inherit`,
+              color: "#40407a",
             }}
             to={`/`}
           >
@@ -69,7 +70,7 @@ class Layout extends React.Component {
         <header>{header}</header>
         <main
           style={{
-            width: "70%",
+            width: "50%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
