@@ -4,6 +4,28 @@ const { createFilePath } = require(`gatsby-source-filesystem`)
 const blogRegexp = "/(blog)/.*\\\\.md$/"
 const recipesRegexp = "/(recipes)/.*\\\\.md$/"
 
+function createOrderedContent(createPage, pages, component) {
+  pages.forEach((page, index) => {
+    const previous = index === pages.length - 1 ? null : pages[index + 1].node
+    const next = index === 0 ? null : pages[index - 1].node
+    const {
+      node: {
+        fields: { slug },
+      },
+    } = page
+
+    return createPage({
+      path: slug,
+      component,
+      context: {
+        slug,
+        previous,
+        next,
+      },
+    })
+  })
+}
+
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
@@ -22,37 +44,8 @@ exports.createPages = async ({ graphql, actions }) => {
   // Create blog posts pages.
   const posts = blogResult.data.allMarkdownRemark.edges
   const recipes = recipeResult.data.allMarkdownRemark.edges
-
-  posts.forEach((post, index) => {
-    const previous = index === posts.length - 1 ? null : posts[index + 1].node
-    const next = index === 0 ? null : posts[index - 1].node
-
-    createPage({
-      path: post.node.fields.slug,
-      component: blogPost,
-      context: {
-        slug: post.node.fields.slug,
-        previous,
-        next,
-      },
-    })
-  })
-
-  recipes.forEach((recipe, index) => {
-    const previous =
-      index === recipes.length - 1 ? null : recipes[index + 1].node
-    const next = index === 0 ? null : recipes[index - 1].node
-
-    createPage({
-      path: recipe.node.fields.slug,
-      component: recipePost,
-      context: {
-        slug: recipe.node.fields.slug,
-        previous,
-        next,
-      },
-    })
-  })
+  createOrderedContent(createPage, posts, blogPost)
+  createOrderedContent(createPage, recipes, recipePost)
 }
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
