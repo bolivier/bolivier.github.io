@@ -5,6 +5,7 @@ import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm } from "../utils/typography"
+import { Card } from "../components/card"
 
 class BlogIndex extends React.Component {
   render() {
@@ -18,6 +19,47 @@ class BlogIndex extends React.Component {
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="All posts" />
         <Bio location={this.props.location} />
+        <div
+          style={{
+            flex: "40%",
+            padding: "5px",
+            borderRadius: "3px",
+            boxShadow: "1px 1px 2px 0px",
+            background: "#f8f8f8",
+            marginBottom: "1rem",
+          }}
+        >
+          <div>
+            <h2
+              style={{
+                marginBottom: "0.5rem",
+                marginTop: 0,
+                textDecoration: "underline",
+              }}
+            >
+              Advent of Code 2020
+            </h2>
+            <div style={{ textAlign: "left" }}>
+              {posts.map(({ node }) => (
+                <React.Fragment>
+                  <li style={{ display: "inline" }}>
+                    <Link
+                      style={{
+                        marginRight: "0.5rem",
+                        boxShadow: "none",
+                        fontSize: "10px",
+                        textDecoration: "underline",
+                      }}
+                      to={node.fields.slug}
+                    >
+                      {node.frontmatter.title}
+                    </Link>
+                  </li>
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+        </div>
         <div style={{ display: "flex", flexFlow: "row wrap", gap: "15px" }}>
           {Object.entries(tags)
             .sort((a, b) => {
@@ -25,46 +67,25 @@ class BlogIndex extends React.Component {
             })
             .map(([tag, posts]) => {
               return (
-                <div
-                  style={{
-                    flex: "40%",
-                    padding: "5px",
-                    borderRadius: "3px",
-                    boxShadow: "1px 1px 2px 0px",
-                    background: "#f8f8f8",
-                  }}
-                >
-                  <div>
-                    <h2
-                      style={{
-                        marginBottom: "0.5rem",
-                        marginTop: 0,
-                        textDecoration: "underline",
-                      }}
-                    >
-                      {capitalize(tag)}
-                    </h2>
-                    <div style={{ textAlign: "left" }}>
-                      {posts.map(({ node }) => (
-                        <React.Fragment>
-                          <li style={{ display: "inline" }}>
-                            <Link
-                              style={{
-                                marginRight: "0.5rem",
-                                boxShadow: "none",
-                                fontSize: "10px",
-                                textDecoration: "underline",
-                              }}
-                              to={node.fields.slug}
-                            >
-                              {node.frontmatter.title}
-                            </Link>
-                          </li>
-                        </React.Fragment>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                <Card title={capitalize(tag)}>
+                  {posts.map(({ node }) => (
+                    <React.Fragment>
+                      <li style={{ display: "inline" }}>
+                        <Link
+                          style={{
+                            marginRight: "0.5rem",
+                            boxShadow: "none",
+                            fontSize: "10px",
+                            textDecoration: "underline",
+                          }}
+                          to={node.fields.slug}
+                        >
+                          {node.frontmatter.title}
+                        </Link>
+                      </li>
+                    </React.Fragment>
+                  ))}
+                </Card>
               )
             })}
         </div>
@@ -88,7 +109,6 @@ export const pageQuery = graphql`
     ) {
       edges {
         node {
-          excerpt
           fields {
             slug
           }
