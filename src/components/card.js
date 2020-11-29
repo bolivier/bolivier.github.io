@@ -1,6 +1,6 @@
 import React from "react"
 
-export function Card({ children, title }) {
+export function Card({ children, title, style = {} }) {
   return (
     <div
       style={{
@@ -9,6 +9,7 @@ export function Card({ children, title }) {
         borderRadius: "3px",
         boxShadow: "1px 1px 2px 0px",
         background: "#f8f8f8",
+        ...style,
       }}
     >
       <div>

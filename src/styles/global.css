@@ -1,0 +1,10 @@
+.advent-of-code-grid {
+  grid-template-columns: auto auto auto auto auto auto auto;
+  grid-gap: 1rem;
+  display: grid;
+}
+
+.advent-of-code-grid > div {
+  background: lavender;
+  text-align: center;
+}
