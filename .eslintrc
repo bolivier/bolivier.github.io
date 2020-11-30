@@ -1,6 +1,10 @@
 {
   "extends": "react-app",
 
+  "globals": {
+    "__PATH_PREFIX__": true
+  },
+
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module",
