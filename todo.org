@@ -1,0 +1,7 @@
+#+TITLE: Todos for the site
+
+* TODO Rework the recipes page to make sense
+
+  Reuse the cards and add support for pictures
+
+* TODO Rework the individual recipe templates
