@@ -24,3 +24,8 @@ h2 {
 p {
   @apply mb-2 text-plain;
 }
+
+ol > li {
+  @apply list-decimal;
+  @apply ml-12;
+}
