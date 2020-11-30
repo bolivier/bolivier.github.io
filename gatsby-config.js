@@ -11,18 +11,12 @@ module.exports = {
   },
   plugins: [
     `gatsby-transformer-json`,
+    `gatsby-plugin-postcss`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/content/blog`,
-        name: `blog`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/content/recipes`,
-        name: `recipes`,
+        path: `${__dirname}/content`,
+        name: `content`,
       },
     },
     {
@@ -72,7 +66,7 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-          icon: `content/assets/profile-pic.jpg`,
+        icon: `content/assets/profile-pic.jpg`,
       },
     },
     `gatsby-plugin-react-helmet`,

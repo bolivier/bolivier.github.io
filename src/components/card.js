@@ -13,15 +13,7 @@ export function Card({ children, title, style = {} }) {
       }}
     >
       <div>
-        <h2
-          style={{
-            marginBottom: "0.5rem",
-            marginTop: 0,
-            textDecoration: "underline",
-          }}
-        >
-          {title}
-        </h2>
+        <h2 className="text-2xl underline mb-2">{title}</h2>
         <div style={{ textAlign: "left" }}>{children}</div>
       </div>
     </div>

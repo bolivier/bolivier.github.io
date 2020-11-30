@@ -17,21 +17,12 @@ class Layout extends React.Component {
     if (showBigHeader) {
       header = (
         <h1
-          className="name-header"
+          className="name-header text-5xl font-extrabold text-emphasis"
           style={{
             marginBottom: rhythm(1.5),
-            marginTop: 0,
-            color: "#40407a",
           }}
         >
-          <Link
-            style={{
-              boxShadow: `none`,
-              textDecoration: `none`,
-              color: "#40407a",
-            }}
-            to={`/`}
-          >
+          <Link style={linkStyle} to={`/`}>
             {title}
           </Link>
         </h1>
@@ -39,20 +30,12 @@ class Layout extends React.Component {
     } else {
       header = (
         <h3
+          className="text-3xl font-extrabold text-gray-700 mt-0 hover:underline"
           style={{
             fontFamily: `Montserrat, sans-serif`,
-            marginTop: 0,
           }}
         >
-          <Link
-            style={{
-              boxShadow: `none`,
-              textDecoration: `none`,
-              color: `inherit`,
-              color: "#40407a",
-            }}
-            to={`/`}
-          >
+          <Link style={linkStyle} to={`/`}>
             {title}
           </Link>
         </h3>
@@ -70,7 +53,7 @@ class Layout extends React.Component {
         <header>{header}</header>
         <main
           style={{
-            width: "50%",
+            width: "65%",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -86,6 +69,12 @@ class Layout extends React.Component {
       </div>
     )
   }
+}
+
+const linkStyle = {
+  boxShadow: `none`,
+  textDecoration: `none`,
+  fontFamily: `Montserrat, sans-serif`,
 }
 
 export default Layout

@@ -3,6 +3,7 @@ const { createFilePath } = require(`gatsby-source-filesystem`)
 
 const blogRegexp = "/(blog)/.*\\\\.md$/"
 const recipesRegexp = "/(recipes)/.*\\\\.md$/"
+const adventRegexp = "/(advent-2020)/.*\\\\.md$/"
 
 function createOrderedContent(createPage, pages, component) {
   pages.forEach((page, index) => {
@@ -33,26 +34,34 @@ exports.createPages = async ({ graphql, actions }) => {
   const recipePost = path.resolve(`./src/templates/recipe-post.js`)
   const blogResult = await graphql(createPageQueryString(blogRegexp))
   const recipeResult = await graphql(createPageQueryString(recipesRegexp))
+  const adventResult = await graphql(createPageQueryString(adventRegexp))
 
-  if (blogResult.errors) {
-    throw blogResult.errors
-  }
-  if (recipeResult.errors) {
-    throw recipeResult.errors
-  }
+  const results = [blogResult, recipeResult, adventResult]
+  results.forEach(res => {
+    if (res.errors) {
+      throw res.errors
+    }
+  })
 
   // Create blog posts pages.
   const posts = blogResult.data.allMarkdownRemark.edges
-  const recipes = recipeResult.data.allMarkdownRemark.edges
   createOrderedContent(createPage, posts, blogPost)
+
+  const recipes = recipeResult.data.allMarkdownRemark.edges
   createOrderedContent(createPage, recipes, recipePost)
+
+  const adventPosts = adventResult.data.allMarkdownRemark.edges
+  createOrderedContent(createPage, adventPosts, blogPost)
 }
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
   if (node.internal.type === `MarkdownRemark`) {
-    const value = createFilePath({ node, getNode })
+    let value = createFilePath({ node, getNode })
+    if (value.startsWith("/blog")) {
+      value = value.replace("/blog", "/posts")
+    }
     createNodeField({
       name: `slug`,
       node,

@@ -21,10 +21,10 @@ class BlogPostTemplate extends React.Component {
         <article>
           <header>
             <h1
+              className="text-5xl font-bold text-emphasis"
               style={{
+                fontFamily: "Montserrat, sans-serif",
                 marginTop: rhythm(1),
-                marginBottom: 0,
-                color: "#333",
               }}
             >
               {post.frontmatter.title}
@@ -45,9 +45,6 @@ class BlogPostTemplate extends React.Component {
               marginBottom: rhythm(1),
             }}
           />
-          <footer>
-            <Bio location={{ pathname: "not-root" }} />
-          </footer>
         </article>
 
         <nav>

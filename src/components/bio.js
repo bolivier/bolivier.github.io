@@ -1,10 +1,3 @@
-/**
- * Bio component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
-
 import React from "react"
 import { useStaticQuery, graphql, Link } from "gatsby"
 import Image from "gatsby-image"
@@ -57,7 +50,7 @@ const Bio = ({ location }) => {
         }}
       />
       <div>
-        <p>
+        <p className="text-xl">
           I live in Austin, TX. I write Javascript for work, and Clojure(script)
           for fun.
         </p>

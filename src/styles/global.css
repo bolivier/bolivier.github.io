@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .advent-of-code-grid {
   grid-template-columns: auto auto auto auto auto auto auto;
   grid-gap: 1rem;
@@ -7,4 +11,16 @@
 .advent-of-code-grid > div {
   background: lavender;
   text-align: center;
+}
+
+body {
+  @apply bg-background;
+}
+
+h2 {
+  @apply text-3xl font-bold text-primary my-2;
+}
+
+p {
+  @apply mb-2 text-plain;
 }
