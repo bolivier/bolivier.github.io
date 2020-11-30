@@ -4,12 +4,31 @@ const { createFilePath } = require(`gatsby-source-filesystem`)
 const blogRegexp = "/(blog)/.*\\\\.md$/"
 const recipesRegexp = "/(recipes)/.*\\\\.md$/"
 const adventRegexp = "/(advent-2020)/.*\\\\.md$/"
+const bookRegexp = "/(books)/.*\\\\.md$/"
 
-function createOrderedContent(createPage, pages, component) {
-  pages.forEach((page, index) => {
-    const previous = index === pages.length - 1 ? null : pages[index + 1].node
-    const next = index === 0 ? null : pages[index - 1].node
+function addContextToPage(page, index, pages) {
+  const previous = index === pages.length - 1 ? null : pages[index + 1].node
+  const next = index === 0 ? null : pages[index - 1].node
+  const {
+    node: {
+      fields: { slug },
+    },
+  } = page
+
+  return {
+    ...page,
+    context: {
+      slug,
+      previous,
+      next,
+    },
+  }
+}
+
+function createContentTypePages(createPage, pages, component) {
+  pages.forEach(page => {
     const {
+      context,
       node: {
         fields: { slug },
       },
@@ -20,8 +39,7 @@ function createOrderedContent(createPage, pages, component) {
       component,
       context: {
         slug,
-        previous,
-        next,
+        ...context,
       },
     })
   })
@@ -32,11 +50,15 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const blogPost = path.resolve(`./src/templates/blog-post.js`)
   const recipePost = path.resolve(`./src/templates/recipe-post.js`)
+  const bookNotesTemplate = path.resolve("./src/templates/book-notes.js")
+
+  // this is getting tedious, fix it some time
   const blogResult = await graphql(createPageQueryString(blogRegexp))
   const recipeResult = await graphql(createPageQueryString(recipesRegexp))
   const adventResult = await graphql(createPageQueryString(adventRegexp))
+  const bookResult = await graphql(createPageQueryString(bookRegexp))
 
-  const results = [blogResult, recipeResult, adventResult]
+  const results = [blogResult, recipeResult, adventResult, bookResult]
   results.forEach(res => {
     if (res.errors) {
       throw res.errors
@@ -45,13 +67,20 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // Create blog posts pages.
   const posts = blogResult.data.allMarkdownRemark.edges
-  createOrderedContent(createPage, posts, blogPost)
+  createContentTypePages(createPage, posts.map(addContextToPage), blogPost)
 
   const recipes = recipeResult.data.allMarkdownRemark.edges
-  createOrderedContent(createPage, recipes, recipePost)
+  createContentTypePages(createPage, recipes.map(addContextToPage), recipePost)
 
   const adventPosts = adventResult.data.allMarkdownRemark.edges
-  createOrderedContent(createPage, adventPosts, blogPost)
+  createContentTypePages(
+    createPage,
+    adventPosts.map(addContextToPage),
+    blogPost
+  )
+
+  const books = bookResult.data.allMarkdownRemark.edges
+  createContentTypePages(createPage, books, bookNotesTemplate)
 }
 
 exports.onCreateNode = ({ node, actions, getNode }) => {

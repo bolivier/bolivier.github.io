@@ -1,8 +1,9 @@
 import React from "react"
 
-export function Card({ children, title, style = {} }) {
+export function Card({ children, title, style = {}, className }) {
   return (
     <div
+      className={className}
       style={{
         flex: "40%",
         padding: "5px",

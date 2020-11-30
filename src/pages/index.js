@@ -1,11 +1,13 @@
 import React from "react"
-import { Link, graphql } from "gatsby"
+import { graphql } from "gatsby"
 
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { Card } from "../components/card"
 import { AdventCalendar } from "../components/AdventCalendar"
+import { BookReviewLinks } from "../components/BookReviewLinks"
+import { CardLink } from "../components/CardLink"
 
 class BlogIndex extends React.Component {
   render() {
@@ -13,6 +15,7 @@ class BlogIndex extends React.Component {
     const siteTitle = data.site.siteMetadata.title
     const posts = data.allMarkdownRemark.edges
     const adventPosts = data.adventPosts.edges
+    const books = data.books.edges
 
     const tags = organizePostsByTag(posts)
 
@@ -22,7 +25,7 @@ class BlogIndex extends React.Component {
         <Bio location={this.props.location} />
         <AdventCalendar data={adventPosts} />
 
-        <div style={{ display: "flex", flexFlow: "row wrap", gap: "15px" }}>
+        <div className="grid grid-cols-2 grid gap-5">
           {Object.entries(tags)
             .sort((a, b) => {
               return a[0].charCodeAt(0) - b[0].charCodeAt(0)
@@ -33,18 +36,16 @@ class BlogIndex extends React.Component {
                   {posts.map(({ node }) => (
                     <React.Fragment>
                       <li style={{ display: "inline" }}>
-                        <Link
-                          className="text-xs mr-1 underline shadow-none text-blue-800"
-                          to={node.fields.slug}
-                        >
+                        <CardLink to={node.fields.slug}>
                           {node.frontmatter.title}
-                        </Link>
+                        </CardLink>
                       </li>
                     </React.Fragment>
                   ))}
                 </Card>
               )
             })}
+          <BookReviewLinks books={books} />
         </div>
       </Layout>
     )
@@ -71,6 +72,22 @@ export const pageQuery = graphql`
           }
           frontmatter {
             date(formatString: "MMMM DD, YYYY")
+            title
+          }
+        }
+      }
+    }
+
+    books: allMarkdownRemark(
+      sort: { fields: [frontmatter___date], order: DESC }
+      filter: { fileAbsolutePath: { regex: "/(books)/.*\\\\.md$/" } }
+    ) {
+      edges {
+        node {
+          fields {
+            slug
+          }
+          frontmatter {
             title
           }
         }
