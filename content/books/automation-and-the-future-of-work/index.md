@@ -5,8 +5,9 @@ authorName: "Aaron Benanav"
 
 ## -In Progress-
 
-The "automation discourse" contends that work and humans are being made obsolete
-by advanced machines. Mainstream people who talk about it claim we're
+
+The "automation discourse" contends that work and humans are being made
+obsolete by advanced machines. Mainstream people who talk about it claim we're
 experiencing a paradigm shift that means humans will no longer need to work in
 the near future and we should therefore institute some kind of UBI or negative
 income tax.
