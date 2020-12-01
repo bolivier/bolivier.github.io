@@ -51,6 +51,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const blogPost = path.resolve(`./src/templates/blog-post.js`)
   const recipePost = path.resolve(`./src/templates/recipe-post.js`)
   const bookNotesTemplate = path.resolve("./src/templates/book-notes.js")
+  const adventTemplate = path.resolve("./src/templates/advent-template.js")
 
   // this is getting tedious, fix it some time
   const blogResult = await graphql(createPageQueryString(blogRegexp))
@@ -76,7 +77,7 @@ exports.createPages = async ({ graphql, actions }) => {
   createContentTypePages(
     createPage,
     adventPosts.map(addContextToPage),
-    blogPost
+    adventTemplate
   )
 
   const books = bookResult.data.allMarkdownRemark.edges
