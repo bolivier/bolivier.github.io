@@ -26,20 +26,20 @@ give a few times a week.  You can calculate the difference of each element from
 
 ## Part II
 
-Part 2 is harder.  There are three numbers.  I would like to figure out how to
-reuse the set logic to do this, but since fixing one of three values doesn't
+Part 2 is harder.  It's the same problem, but solved for three numbers.  I would
+prefer to reuse the set logic to do this, but fixing one of three values doesn't
 limit the search space enough.
 
 One thing I could try is to generate combinations for `n choose 3` and filter
 out those that don't sum to 2020.  That seems unnecessarily challenging and
-doesn't build on existing code. I'll circle back if nothing comes up.
+doesn't build on existing code. I'll circle back if nothing comes to me.
 
 I can refactor the multiply expenses function to be slightly more general.  It
 can take the total (instead of assuming `2020`), and iterate over the existing
 list looking for a solution to the sub-problem.
 
 A little finesse and that function can be refactored to use Clojure's variadic
-functions to support a default arg.  I also changed the name to not include a
+functions to support a default arg.  I also changed the name to not include the
 magic number.
 
 ```clojure
@@ -65,8 +65,11 @@ It was easy enought to pull the set intersection out into a new function I calle
            (into #{} (map #(- sum %) expenses))))
 ```
 
+Turns out the product of the empty set is 1.  That's the weird output solved.
+
 It almost feels like cheating to put the solution code up without showing the
-~20 steps I took to create it, each time verifying visually with the repl.  But this is what I got for solving problem 2.
+~20 steps I took to create it, each time verifying visually with the repl.  But
+this is what I have that solves part 2.
 
 ```clojure
 (defn multiply-2020-expenses-2 [expenses]
@@ -82,8 +85,8 @@ It almost feels like cheating to put the solution code up without showing the
 It's not pretty, and I'd like to clean it up a bit before pushing it to Github.
 Generally when I have this much nesting to operate on one data structure, I
 assume that it can threaded to look nice one way or another.  The repeated calls
-to `map` and `remove` hint that it should be with `->>`.  With the cider
-devtools, I can quickly refactor that to be threaded and it already looks nicer.
+to `map` and `remove` hint that it should be with `->>`.  With the clj-refactor,
+I can quickly thread that and it already looks nicer.
 
 ```clojure
 (defn multiply-2020-expenses-2 [expenses]
