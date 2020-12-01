@@ -117,3 +117,21 @@ isolate it somewhere independently and name the function.
        first
        (apply *)))
 ```
+
+## WOW!
+
+I read some other solutions on /r/adventofcode and there's one that blew my mind
+with the simplicity of it.  You can do this for both problems, but I'll only
+show the second here.
+
+```clojure
+(let [input (read-input)]
+    (first (for [x     input
+           y     input
+           z     input
+           :when (= 2020 (+ x y z))]
+       (* x y z))))
+```
+
+It runs imperceptibly fast on my 2015 Macbook Pro, but timing it for 100
+iterations shows it's about 10x slower than my original implementation.
