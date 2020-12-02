@@ -5,9 +5,8 @@ authorName: "Aaron Benanav"
 
 ## -In Progress-
 
-
-The "automation discourse" contends that work and humans are being made
-obsolete by advanced machines. Mainstream people who talk about it claim we're
+The "automation discourse" contends that work and humans are being made obsolete
+by advanced machines. Mainstream people who talk about it claim we're
 experiencing a paradigm shift that means humans will no longer need to work in
 the near future and we should therefore institute some kind of UBI or negative
 income tax.
@@ -33,3 +32,12 @@ Benanav outlines 4 main points in his introduction to talk about.
 4. The problem of how to create a fully automated world where people can thrive
    in freedom and creative pursuit is more a social problem than a technical
    one.
+
+## Chapter 2
+
+74% of American workers work in service, and so automation has to explain how
+those jobs will compete.
+
+Jobs grew in manufacturing in the 60's when machinery was introduced into
+manufacturing production lines. Additionally, those are areas where you can
+control the environment -- slightly less true in retail service jobs.
