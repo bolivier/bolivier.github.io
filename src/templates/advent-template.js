@@ -32,8 +32,11 @@ class AdventTemplate extends React.Component {
           </header>
           <h3 className="text-xl text-primary mt-3 font-extrabold">Preface</h3>
           <p>
-            I'm doing writeups for the Advent of Code 2020 in Clojure.  I'm trying to cultivate a Digital Garden, so
-            this is mostly for me, but if you like it, that's cool too.
+            I'm doing writeups for the Advent of Code 2020 in Clojure. This is mostly
+            to motivate me, but if you like it, that's cool too.
+          </p>
+          <p>
+            All the code is on <Link href="https://github.com/bolivier/advent-of-code-2020">my Github</Link>
           </p>
           <section dangerouslySetInnerHTML={{ __html: post.html }} />
           <hr
