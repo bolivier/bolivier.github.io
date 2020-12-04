@@ -28,15 +28,17 @@ class AdventTemplate extends React.Component {
             >
               {post.frontmatter.date}
             </h1>
-
           </header>
           <h3 className="text-xl text-primary mt-3 font-extrabold">Preface</h3>
           <p>
-            I'm doing writeups for the Advent of Code 2020 in Clojure. This is mostly
-            to motivate me, but if you like it, that's cool too.
+            I'm doing writeups for the Advent of Code 2020 in Clojure. This is
+            mostly to motivate me, but if you like it, that's cool too.
           </p>
           <p>
-            All the code is on <Link href="https://github.com/bolivier/advent-of-code-2020">my Github</Link>
+            All the code is on{" "}
+            <Link href="https://github.com/bolivier/advent-of-code-2020">
+              my Github
+            </Link>
           </p>
           <section dangerouslySetInnerHTML={{ __html: post.html }} />
           <hr
@@ -45,33 +47,6 @@ class AdventTemplate extends React.Component {
             }}
           />
         </article>
-
-        <nav>
-          <ul
-            style={{
-              display: `flex`,
-              flexWrap: `wrap`,
-              justifyContent: `space-between`,
-              listStyle: `none`,
-              padding: 0,
-            }}
-          >
-            <li>
-              {previous && (
-                <Link to={previous.fields.slug} rel="prev">
-                  ← {previous.frontmatter.title}
-                </Link>
-              )}
-            </li>
-            <li>
-              {next && (
-                <Link to={next.fields.slug} rel="next">
-                  {next.frontmatter.title} →
-                </Link>
-              )}
-            </li>
-          </ul>
-        </nav>
       </Layout>
     )
   }
