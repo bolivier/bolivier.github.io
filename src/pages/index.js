@@ -122,7 +122,7 @@ function organizePostsByTag(posts) {
   const tags = {}
   posts.forEach(post => {
     const { node } = post
-    node.frontmatter.tags.forEach(tag => {
+    node.frontmatter.tags?.forEach(tag => {
       if (!tags[tag]) {
         tags[tag] = []
       }
