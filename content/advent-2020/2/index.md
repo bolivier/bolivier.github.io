@@ -14,7 +14,7 @@ character before the `:` and the piece after the `:` is the password.
 2-9 c: ccccccccc
 ```
 
-I like to split parsing a single line with iterating over all the lines.  I
+I like to split parsing a single line with iterating over all the lines. I
 should probably move the latter into a utils file.
 
 ```clojure
@@ -45,7 +45,8 @@ and compare the frequency to our limits.
     (<= lower char-count upper)))
 ```
 
-Now I can count the number of elements in the list of all input lines that are valid.
+Now I can count the number of elements in the list of all input lines that are
+valid.
 
 ```clojure
 (defn solve []
@@ -67,7 +68,7 @@ Now I can count the number of elements in the list of all input lines that are v
 
 ## Part 2
 
-For part 2, the elf realized that he gave me the wrong validation logic.  1-3
+For part 2, the elf realized that he gave me the wrong validation logic. 1-3
 does not refer to a range, but particular indices where one xor the other must
 equal the char.
 
@@ -93,4 +94,4 @@ checking their values.
 <small>`dec` is included because these passwords are 1-indexed.</small>
 
 With the new validation function, I copy-pasted the solve function from earlier,
-and pasted the new validation in.  It worked.
+and pasted the new validation in. It worked.
