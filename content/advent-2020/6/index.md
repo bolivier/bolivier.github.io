@@ -116,3 +116,80 @@ options to split on single/double lines.
 I also think this problem really showcases, again, Clojure's ability to create
 small succinct solutions that pretty closely match how I would describe the
 solution in English.
+
+## Transducers
+
+I did some refactoring. In addition to using a common util for reading files, I
+also rewrote day 6 using transducers, because it felt like a natural fit for
+splitting files, and after that I got interested in how they'd look and perform
+differently.
+
+First off, performance. It's noticeable at 100 iterations, but it's still
+insubstantial for datasets of this size. No matter what I'm not changing the big
+O of the algorithms, just changing how many iterations over a list I perform.
+
+First off, the common utils I created:
+
+```clojure
+(defn input-reader [filename]
+  (io/reader (str "resources/" filename)))
+```
+
+This is a small change, but with this I can start using `line-seq` to get the
+lines. That pattern is the motivator for using transducers. If I use transducers
+instead of threading macros, I can DRY up the code that parses inputs.
+
+For instance, splitting on every line is easy, I can call `line-seq` on the
+buffered reader, and I'll get what I need. But for double split lines, I'd be
+repeating logic like
+
+```clojure
+(map
+ #(str/split % #"\n")
+ (str/split input "\n\n"))
+```
+
+I can define a transducer that will accomplish this same thing, then as long as
+I'm using transducers to solve the problem otherwise, it should be easy to
+compose.
+
+```clojure
+(def blank-line-splitting
+  (comp (partition-by empty?)
+        (remove #(and (= 1 (count %))
+                      (empty? (first %))))))
+```
+
+This transducer will partition a sequence by empty elements, giving me a list
+like `[["abc"] [""] ["bcd"]]` because the blank line, then will remove vectors
+of size 1, where the first element is also empty. I used empty here because in
+my refactored solution, it made sense to convert all the lines into sets before
+partitioning, to avoid nested data transforms. Luckily, Clojure's primitive
+functions operate on everything.
+
+With that I can rewrite the solution from earlier.
+
+```clojure
+(defn solve-2 []
+  (with-open [lines (utils/input-reader filename)]
+    (transduce
+     (comp (map set)
+           utils/blank-line-splitting
+           (map #(apply set/intersection %))
+           (map count))
+     +
+     (line-seq lines))))
+```
+
+This seems confusing, but only at first. I open a reader for the filename (now
+defined only in one place). I feed that data into `transduce` with `line-seq`. I
+apply the changes. Convert each line into a set, partition and remove blank
+lines, apply set intersections and count the resulting set. Then, I am reducing
+those values with `+`.
+
+I think this reads less cleanly than the original code, especially to people
+unfamiliar with transducers (read: everyone but Rich Hickey) but the reusability
+of `blank-line-splitting` is a big win. I think too the input reader/line-seq is
+good. I could easily replace that with `slurp` and `str/split-lines` though.
+
+Overall, I think it's a win. Let's see how it pans out tomorrow.
