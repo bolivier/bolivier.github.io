@@ -5,7 +5,6 @@ import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { Card } from "../components/card"
-import { AdventCalendar } from "../components/AdventCalendar"
 import { BookReviewLinks } from "../components/BookReviewLinks"
 import { CardLink } from "../components/CardLink"
 
@@ -23,7 +22,6 @@ class BlogIndex extends React.Component {
       <Layout location={this.props.location} title={siteTitle}>
         <SEO title="All posts" />
         <Bio location={this.props.location} />
-        <AdventCalendar data={adventPosts} />
 
         <div className="grid grid-cols-2 grid gap-5">
           {Object.entries(tags)
