@@ -1,7 +1,7 @@
 const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
-const blogRegexp = "/(blog)/.*\\\\.md$/"
+const blogRegexp = "/(blog)/.*\\\\.mdx?$/"
 const recipesRegexp = "/(recipes)/.*\\\\.md$/"
 const adventRegexp = "/(advent-2020)/.*\\\\.md$/"
 const bookRegexp = "/(books)/.*\\\\.md$/"
@@ -67,27 +67,27 @@ exports.createPages = async ({ graphql, actions }) => {
   })
 
   // Create blog posts pages.
-  const posts = blogResult.data.allMarkdownRemark.edges
+  const posts = blogResult.data.allMdx.edges
   createContentTypePages(createPage, posts.map(addContextToPage), blogPost)
 
-  const recipes = recipeResult.data.allMarkdownRemark.edges
+  const recipes = recipeResult.data.allMdx.edges
   createContentTypePages(createPage, recipes.map(addContextToPage), recipePost)
 
-  const adventPosts = adventResult.data.allMarkdownRemark.edges
+  const adventPosts = adventResult.data.allMdx.edges
   createContentTypePages(
     createPage,
     adventPosts.map(addContextToPage),
     adventTemplate
   )
 
-  const books = bookResult.data.allMarkdownRemark.edges
+  const books = bookResult.data.allMdx.edges
   createContentTypePages(createPage, books, bookNotesTemplate)
 }
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
-  if (node.internal.type === `MarkdownRemark`) {
+  if (node.internal.type === `Mdx`) {
     let value = createFilePath({ node, getNode })
     if (value.startsWith("/blog")) {
       value = value.replace("/blog", "/posts")
@@ -103,7 +103,7 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
 function createPageQueryString(regexp) {
   return `
       {
-        allMarkdownRemark(
+        allMdx(
           sort: { fields: [frontmatter___date], order: DESC }
           filter:{fileAbsolutePath: {regex: "${regexp}"}}
           limit: 1000

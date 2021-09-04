@@ -1,11 +1,12 @@
 import { graphql } from "gatsby"
+import { MDXRenderer } from "gatsby-plugin-mdx"
 import React from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm } from "../utils/typography"
 
 export default function BookNotesTemplate({ data, location }) {
-  const bookNotes = data.markdownRemark
+  const bookNotes = data.mdx
   const siteTitle = data.site.siteMetadata.title
 
   return (
@@ -30,7 +31,7 @@ export default function BookNotesTemplate({ data, location }) {
             <span className="italic">{bookNotes.frontmatter.authorName}</span>
           </p>
         </header>
-        <section dangerouslySetInnerHTML={{ __html: bookNotes.html }} />
+        <MDXRenderer>{bookNotes.body}</MDXRenderer>
         <hr
           style={{
             marginBottom: rhythm(1),
@@ -48,9 +49,9 @@ export const pageQuery = graphql`
         title
       }
     }
-    markdownRemark(fields: { slug: { eq: $slug } }) {
+    mdx(fields: { slug: { eq: $slug } }) {
       id
-      html
+      body
       frontmatter {
         title
         authorName

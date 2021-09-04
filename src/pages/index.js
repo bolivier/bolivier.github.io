@@ -12,7 +12,7 @@ class BlogIndex extends React.Component {
   render() {
     const { data } = this.props
     const siteTitle = data.site.siteMetadata.title
-    const posts = data.allMarkdownRemark.edges
+    const posts = data.allMdx.edges
     const adventPosts = data.adventPosts.edges
     const books = data.books.edges
 
@@ -59,7 +59,7 @@ export const pageQuery = graphql`
         title
       }
     }
-    adventPosts: allMarkdownRemark(
+    adventPosts: allMdx(
       sort: { fields: [frontmatter___date], order: DESC }
       filter: { fileAbsolutePath: { regex: "/(advent-2020)/.*\\\\.md$/" } }
     ) {
@@ -76,7 +76,7 @@ export const pageQuery = graphql`
       }
     }
 
-    books: allMarkdownRemark(
+    books: allMdx(
       sort: { fields: [frontmatter___date], order: DESC }
       filter: { fileAbsolutePath: { regex: "/(books)/.*\\\\.md$/" } }
     ) {
@@ -92,7 +92,7 @@ export const pageQuery = graphql`
       }
     }
 
-    allMarkdownRemark(
+    allMdx(
       sort: { fields: [frontmatter___date], order: DESC }
       filter: { fileAbsolutePath: { regex: "/(blog)/.*\\\\.md$/" } }
     ) {
