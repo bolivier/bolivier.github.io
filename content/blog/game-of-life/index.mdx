@@ -1,0 +1,113 @@
+---
+title: Game of life in Clojurescript
+date: 2021-09-11
+tags: ["clojurescript"]
+---
+
+import {SideBySideImages} from "../../../src/components/SideBySideImages";
+
+I saw a [cool
+blogpost](https://dev.to/mariusmuntean/build-the-game-of-life-with-react-5goh)
+on creating Conway's game of life in TS, and I thought it'd be fun to
+compare the implementation to what I'd write in Clojurescript.
+
+
+
+## The Cell
+
+Starting with the smallest component, the cell.  It's either alive or
+dead. And it needs to be toggleable back and forth between those states.
+
+import cellTs from './cell-ts.png'
+import cellCljs from './cell-cljs.png'
+
+<SideBySideImages sourceLeft={cellTs} sourceRight={cellCljs} />
+
+The TS version starts with an enum for `Dead` or `Alive`, and a class
+representing a cell with a few methods on it. 
+
+ The Clojurescript version is just a keyword.  It's just data -
+either `:dead` or `:alive`.  And because maps implement `Ifn`, I can
+just use a map for the toggling function.
+
+Besides the complexity of the mechanism itself, the TS version is also
+mutable.  Cells can themselves switch back and forth, they maintain an
+internal state.  The cljs version has no such state.
+
+## Life (the board)
+
+There's a more substantial divergence here because the TS version is
+using a `Life` class to represent the game and the board, which aren't
+decomplected in that version.  For my cljs version, the game logic is
+stored in a `tick` function, while the board exists as an independent
+entity.
+
+import initialTs from './initial-state-ts.png';
+import initialCljs from './initial-state-cljs.png';
+
+<SideBySideImages sourceLeft={initialTs} sourceRight={initialCljs} />
+
+To handle the different cases of initialization, I used multiple
+implementations with different numbers of arguments.  I also put the
+state into a reagent atom, which will let the React component this is
+a part up update reactively to changes in the state.
+
+The boards themselves ended up being pretty similar, except for where
+Cells are different.
+
+## Board toggling
+
+Because the TS version is using more complicate data structures, it
+needs a method for toggling state of a particular cell on the board.
+
+The cljs version just uses a generic function.
+
+import toggleTs from './toggle-ts.png';
+import toggleCljs from './toggle-cljs.png'
+
+<SideBySideImages sourceLeft={toggleTs} sourceRight={toggleCljs} />
+
+## Tick
+
+Tick is the most interesting function in the whole project.  Neither
+of these functions look nice to me, but I think the Clojurescript one
+wins in a few places that falls out of our design.  First off, we've
+avoided some iteration and tracking around what the next state will
+be.  We don't need to track it because our board isn't mutable.  I can
+map over the board and update whatever I want without breaking the
+next step, something the TS version can't do (without expensive
+copying).
+
+I think the biggest win comes from `get-neighbors`.  The TS version is
+awkward and wordy.  Clojurescript's `for` macro lends itself very well
+to an elegant solution to a problem that would otherwise take a lot of
+edge case checking.
+
+I also think it's a win that all these functions became distinct. One
+of the strong suits of Clojure I've found is that it is easy to take a
+chunk of code and isolate it in a method.  And the `?` character being
+allowed in names makes predicates easy to define and communicate about.
+
+import tickTs from './tick-ts.png';
+import tickCljs from './tick-cljs.png'
+
+<SideBySideImages sourceLeft={tickTs} sourceRight={tickCljs} />
+
+## Conclusion
+
+The Clojurescript code is smaller in every case, which is nice.  But
+the constructs I can use to build the same thing are drastically
+simpler. 
+
+Becuase I don't need to track states across time (because of immutable
+persistent data structures), I can use simpler representations.  I can
+skip on the class and just use plain data.  Because of those simpler
+representations, I can skip out on using concrete methods on
+particular classes and instead opt for generic functions that work on
+everything. 
+
+Because there are more powerful functions, I can skip some verbosity of
+looping. 
+
+Clojurescript offers drastically improved building blocks compared to
+Javascript.
