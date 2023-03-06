@@ -1,0 +1,11 @@
+#+title: My Personal Website
+
+This is the code for my personal site.
+
+Tech Goals:
+
+- garden >> blog
+- Static site
+- build html with babashka
+- style with tailwindcss
+- write posts/recipes/thoughts in org mode
