@@ -1,20 +1,21 @@
 module.exports = {
-  purge: [],
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {
-      colors: {
-        primary: "#EB5E55",
-        emphasis: "#D81E5B",
+  content: ["public/*.html"],
 
-        plain: "#3A3335",
-        background: "#FDF0D5",
-        backgroundEmphasis: "#C6D8D3",
+  daisyui: {
+    themes: [
+      {
+        mytheme: {
+          primary: "#d81e5b",
+          secondary: "#eb5e55",
+          neutral: "#374151",
+          "base-100": "#fdf0d5",
+        },
       },
-    },
+    ],
   },
-  variants: {
+
+  theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }
