@@ -1,11 +1,10 @@
 (ns render
-  (:require [hiccup2.core :as h]
-            [babashka.fs :as fs]
-            [babashka.pods :as pods]))
+  (:require
+   [babashka.fs :as fs]
+   [babashka.pods :as pods]))
 
 (pods/load-pod 'retrogradeorbit/bootleg "0.1.9")
 (require '[pod.retrogradeorbit.bootleg.utils :as utils])
-(require '[pod.retrogradeorbit.bootleg.asciidoc :as adoc])
 
 (defn base-html [{:keys [title] :as opts} & children]
   [:html
@@ -58,6 +57,3 @@
                                :html))))
 
 (render)
-
-(utils/convert-to (slurp "src/posts/getting-started-clojure.adoc")
-                  :html)

@@ -1,16 +1,18 @@
 {:paths ["src"]
- :tasks {http-server {:extra-deps {babashka/http-server
-                                   {:git/url "https://github.com/babashka/http-server"
-                                    :git/sha "b38c1f16ad2c618adae2c3b102a5520c261a7dd3"}}
-                      :requires   ([babashka.http-server :as http])
-                      :task       (do
-                                    (println "Serving HTML on port 1888")
-                                    (http/serve {:port 1888
-                                                 :dir  "public"}))}
+ :deps  {org.babashka/http-server {:mvn/version "0.1.11"}
+         org.babashka/cli         {:mvn/version "0.2.23"}}
+ :tasks
+ {:requires ([babashka.cli :as cli])
+  :init     (def cli-opts (cli/parse-opts *command-line-args* {:coerce {:port :int}}))
 
-         render {:doc  "Render blog"
-                 :task (load-file "src/render.clj")}
+  serve {:doc      "Serve static assets"
+         :requires ([babashka.http-server :as server])
+         :task     (server/exec (merge {:port 1888 :dir  "public"}
+                                       cli-opts))}
 
-         watch {:depends [render http-server watch-css]
-                :doc     "Watch posts and templates and call render on file changes"
-                :task    (load-file "src/watch.clj")}}}
+  render {:doc  "Render blog"
+          :task (load-file "src/render.clj")}
+
+  watch {:depends [render]
+         :doc     "Watch posts and templates and call render on file changes"
+         :task    (load-file "src/watch.clj")}}}
