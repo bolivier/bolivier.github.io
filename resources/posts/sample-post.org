@@ -1,0 +1,10 @@
+#+title: Sample Post
+#+date: <2023-03-10 Fri>
+#+subtitle: Testing features
+
+* Testing formats
+
+I'm testing a new format for writing content, it's org-mode.
+
+- cooler than markdown
+- more work to convert
