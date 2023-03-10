@@ -17,43 +17,24 @@
     children]])
 
 
-(def index "public/index.html")
-
-(defn post-link [{:keys [title]}]
-  [:li.inline title])
-
-(defn card [title posts]
-  [:div.shadow.bg-white.p-4.rounded
-   [:h3.text-xl.font-bold.text-secondary.underline title]
-   [:ul.align-left
-    (for [post posts]
-      (post-link post))]])
+(def index "resources/public/index.html")
 
 (def index-page
-  (base-html {:title "Brandon Olivier"}
-
-             [:header
-              [:h2.text-2xl.text-primary.font-bold "Brandon Olivier"]
-              [:section.flex.gap-4.items-center
-               [:img {:src "/img/profile-pic.jpg"
-                      :class "h-16 rounded-full shadow"
-                      :alt "profile"}]
-               [:section
-                [:p "I live in San Antonio, TX.  I write Javascript for work, and Clojure for fun."]
-                [:p "I also like to cook"]]]]
-
-             [:main.grid.grid-cols-2.gap-5
-              (card "Clojure"
-                    [{:title "post 1"}
-                     {:title "post 2"}
-                     {:title "post 3"}])]))
+  (base-html
+   {:title "Brandon Olivier"}
+   [:header
+    [:h2.text-2xl.text-primary.font-bold "Brandon Olivier"]
+    [:section.flex.gap-4.items-center
+     [:img {:src "/img/profile-pic.jpg"
+            :class "h-16 rounded-full shadow"
+            :alt "profile"}]
+     [:section
+      [:p "I live in San Antonio, TX.  I write Javascript for work, and Clojure for fun."]
+      [:p "I also like to cook"]]]]))
 
 (defn render []
-  (fs/copy-tree "src/img" "public/img" {:replace-existing true})
-
   (spit index
         (str "<!DOCTYPE html>"
-             (utils/convert-to index-page
-                               :html))))
+             (utils/convert-to index-page :html))))
 
 (render)

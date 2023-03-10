@@ -8,7 +8,7 @@ node_modules/
 /.clj-kondo/.cache
 
 # Built files
-/public
+/resources/public
 
 # Mac files
 .DS_Store
